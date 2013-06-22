@@ -23,7 +23,7 @@ public class MySMSMidlet extends MIDlet implements CommandListener {
     public MySMSMidlet() {
         display = Display.getDisplay(this);
 
-        f = new Form("Message FOrm");
+        f = new Form("Messaging");
         no = new TextField("Number", null, 15, TextField.PHONENUMBER);
         msg = new TextField("Message text", null, 65535, TextField.ANY);
         exit = new Command("Exit", Command.EXIT, 0);
@@ -37,12 +37,12 @@ public class MySMSMidlet extends MIDlet implements CommandListener {
 
     public void startApp() {
         display.setCurrent(f);
-        
-        ReceiveThread rt = new ReceiveThread(this,false);
+
+        ReceiveThread rt = new ReceiveThread(this, true);
         Thread t = new Thread(rt);
         t.start();
-       
-        
+
+
     }
 
     public void pauseApp() {
@@ -64,8 +64,5 @@ public class MySMSMidlet extends MIDlet implements CommandListener {
         senderThread st = new senderThread(this);
         Thread t = new Thread(st);
         t.start();
-        st=null;
-        t=null;
-        
     }
 }

@@ -4,6 +4,7 @@
  */
 package mob_tutes_2;
 
+import java.io.IOException;
 import javax.microedition.io.Connector;
 import javax.wireless.messaging.BinaryMessage;
 import javax.wireless.messaging.MessageConnection;
@@ -21,16 +22,23 @@ public class senderThread implements Runnable {
     }
 
     public  void run() {
+        MessageConnection con2=null;
         try {
             
-            MessageConnection con2 = (MessageConnection) Connector.open("sms://"+midlet.no.getString()+":1234");
+            con2 = (MessageConnection) Connector.open("sms://"+midlet.no.getString()+":1234");
             BinaryMessage tm = (BinaryMessage) con2.newMessage(con2.BINARY_MESSAGE);
             tm.setPayloadData(midlet.msg.getString().getBytes());
             con2.send(tm);
-            con2.close();
-          
         } catch (Exception e) {
             System.out.println(e);
+        }finally{
+            if(con2!=null){
+                try {
+                    con2.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
  
     }
